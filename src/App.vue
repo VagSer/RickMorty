@@ -23,7 +23,6 @@ export default defineComponent({
         if (this.characters.length === 0 ) {
           const response = await axios.get('https://rickandmortyapi.com/api/character')
           this.characters = response.data.results
-          console.table(response.data.results)
         }
       }
   }
