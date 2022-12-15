@@ -8,6 +8,8 @@ import 'primevue/resources/themes/saga-blue/theme.css';
 
 const app = createApp(App)
 
-app.use(PrimeVue).mount('#app')
+
 app.component('Card', Card)
 app.component('Button', Button)
+
+app.use(PrimeVue).mount('#app')

@@ -1,29 +1,25 @@
 <template>
   <h2>Рик и Морти</h2>
-  <button @click="fetchCharacters">
-    Персонажи
-  </button>
-  <button @click="fetchEpisodes"
-    disabled
-  >
-    Эпизоды
-  </button>
-  <button @click="fetchLocations">
-    Локации
-  </button>
-  <characters-list :characters="characters"/>
-  <locations-list :locations="locations"/>
+    <div>
+      <Button @click="fetchEpisodes" label="Эпизоды"/>
+      <Button @click="fetchCharacters" label="Персонажи"/>
+      <Button @click="fetchLocations" label="Локации"/>
+    </div>
+    <characters-list :characters="characters"/>
+    <locations-list :locations="locations"/>
+  <episodes-list :episodes="episodes"/>
 </template>
 
 <script lang="ts">
 import {defineComponent} from 'vue';
 import CharactersList from './components/CharactersList.vue'
 import LocationsList from './components/LocationsList.vue'
+import EpisodesList from './components/EpisodesList.vue'
 import axios from 'axios';
 
 export default defineComponent({
   name:' App',
-  components: {CharactersList, LocationsList},
+  components: {CharactersList, LocationsList, EpisodesList},
   data() {
     return {
       characters: [],
@@ -40,8 +36,9 @@ export default defineComponent({
       },
       async fetchEpisodes() {
         if (this.episodes.length === 0 ) {
-          const response = await axios.get('https://rickandmortyapi.com/api/character')
-          this.characters = response.data.results
+          const response = await axios.get('https://rickandmortyapi.com/api/episode')
+          this.episodes = response.data.results
+          console.table(response.data.results)
         }
       },
       async fetchLocations() {
@@ -64,9 +61,5 @@ export default defineComponent({
 .Item{
     width: min(90%, 400px);
     margin: 10px auto;
-}
-#Item__Image {
-    display: flex;
-    margin: auto;
 }
 </style>
