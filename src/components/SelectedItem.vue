@@ -1,8 +1,8 @@
 <template>
     <div class="blackBackground" v-if="isVisible" @click="cancelSelection">
         <div class="selectedItem" @click.stop>
-            <selected-character v-if="selectedItem.hasOwnProperty('gender')" :selectedItem="selectedItem"/>
             <selected-episode v-if="selectedItem.hasOwnProperty('air_date')" :selectedItem="selectedItem"/>
+            <selected-character v-if="selectedItem.hasOwnProperty('gender')" :selectedItem="selectedItem"/>
         </div>
     </div>
 </template>
@@ -10,7 +10,7 @@
 <script lang="ts">
 import {defineComponent } from 'vue'
 import SelectedCharacter from './SelectedCharacter.vue'
-import SelectedEpisode from './SelectedCharacter.vue'
+import SelectedEpisode from './SelectedEpisode.vue'
 
 export default defineComponent({
     name: 'selected-item',
