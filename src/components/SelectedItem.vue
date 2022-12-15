@@ -57,6 +57,7 @@ export default defineComponent({
     width: min(95%, 600px);
     margin: 10px auto;
     overflow: scroll;
+    overflow-x:hidden;  
     padding: 20px;
 }
 </style>
