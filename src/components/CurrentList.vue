@@ -1,7 +1,7 @@
 <template>
     <selected-item 
         v-model:isVisible="isSomethingSelected" 
-        :selectedItem = "selectedItem"
+        v-model:selectedItem = "selectedItem"
     >
     </selected-item>        
     <div class="List">
@@ -16,6 +16,8 @@
             v-for="episode in currentList" 
             :key="episode.name" 
             :episode="episode"
+            v-model:selectedItem = "selectedItem"
+            v-model:isSomethingSelected = "isSomethingSelected"
         />
         <character-item 
             v-else-if="currentListName==='characters'"

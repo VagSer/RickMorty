@@ -10,16 +10,16 @@
         </template>
         <template #footer>
             <Button 
-            @click="getMoreInfo"
-            label="Подробности" 
+                @click="getMoreInfo"
+                label="Подробности" 
             />
         </template>
     </Card>
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
-import axios from 'axios';
+import {defineComponent} from 'vue'
+import axios from 'axios'
 
 export default defineComponent({
     name: 'character-item',

@@ -31,6 +31,7 @@ export default defineComponent({
     methods: {
         cancelSelection() {
             this.$emit('update:isVisible', false)
+            this.$emit('update:selectedItem', {})
         }
     }
 })

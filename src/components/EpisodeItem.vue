@@ -7,13 +7,17 @@
             <p><strong>Дата релиза:</strong> {{episode.air_date}}</p>
         </template>
         <template #footer>
-            <Button label="Подробности" />
+            <Button 
+                @click="getMoreInfo"
+                label="Подробности" 
+            />
         </template>
     </Card>
 </template>
 
 <script lang="ts">
-import {defineComponent } from 'vue';
+import {defineComponent } from 'vue'
+import axios from 'axios'
 
 export default defineComponent({
     name: 'episode-item',
@@ -25,6 +29,15 @@ export default defineComponent({
     },
     data() {
         return {}
+    },
+    methods: {
+        async getMoreInfo(){
+            const response = await axios.get(`https://rickandmortyapi.com/api/episode/${this.episode.id}`)
+            const data = await response.data
+            console.table(data)
+            this.$emit('update:selectedItem', data)
+            this.$emit('update:isSomethingSelected', true)
+        }
     }
 })
 </script>
