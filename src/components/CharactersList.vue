@@ -1,5 +1,5 @@
 <template>
-  <div class="CharacterList">
+  <div class="List">
     <character-item 
       v-for="character in characters" 
       :key="character.name" 
@@ -24,7 +24,7 @@ export default defineComponent({
 </script>
 
 <style>
-.CharacterList {
+.List {
   display: flex;
   flex-wrap: wrap;
 }
