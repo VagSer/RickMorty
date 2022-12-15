@@ -1,5 +1,13 @@
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
+import PrimeVue from 'primevue/config';
+import Card from 'primevue/card';
+import Button from 'primevue/button';
+import 'primevue/resources/themes/saga-blue/theme.css';
 
-createApp(App).mount('#app')
+const app = createApp(App)
+
+app.use(PrimeVue).mount('#app')
+app.component('Card', Card)
+app.component('Button', Button)

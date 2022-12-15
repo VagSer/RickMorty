@@ -1,6 +1,8 @@
 <template>
   <h2>Рик и Морти</h2>
-  <button @click="fetchCharacters">Персонажи</button>
+  <button @click="fetchCharacters">
+    Персонажи
+  </button>
   <characters-list :characters="characters"/>
 
 </template>

@@ -1,11 +1,17 @@
 <template>
-    <div>
-        <h3>{{character.name}}</h3>
-        <p><strong>Статус:</strong> {{character.status}}</p>
-        <p><strong>Вид:</strong> {{character.species}}</p>
-        <img :src="character.image" :alt="character.name"/>
-        <button>Подробности</button>
-    </div>
+    <Card class="Character">
+        <template #title>
+            {{character.name}}
+        </template>
+        <template #content>
+            <img :src="character.image" :alt="character.name"/>
+            <p><strong>Статус:</strong> {{character.status}}</p>
+            <p><strong>Вид:</strong> {{character.species}}</p>
+        </template>
+        <template #footer>
+            <Button label="Подробности" />
+        </template>
+    </Card>
 </template>
 
 <script lang="ts">
@@ -26,5 +32,8 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
+.Character{
+    width: min(90%, 400px);
+    margin: 10px auto;
+}
 </style>
