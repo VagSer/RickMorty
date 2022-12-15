@@ -5,23 +5,24 @@
       <Button @click="fetchCharacters" label="Персонажи"/>
       <Button @click="fetchLocations" label="Локации"/>
     </div>
-    <characters-list :characters="characters"/>
-    <locations-list :locations="locations"/>
-  <episodes-list :episodes="episodes"/>
+    <currentList 
+      :currentListName="currentListName" 
+      :currentList="currentList"
+    />
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
-import CharactersList from './components/CharactersList.vue'
-import LocationsList from './components/LocationsList.vue'
-import EpisodesList from './components/EpisodesList.vue'
+import {defineComponent} from 'vue'
+import CurrentList from './components/CurrentList.vue'
 import axios from 'axios';
 
 export default defineComponent({
   name:' App',
-  components: {CharactersList, LocationsList, EpisodesList},
+  components: {CurrentList},
   data() {
     return {
+      currentList: [],
+      currentListName: '',
       characters: [],
       episodes: [],
       locations: [],
@@ -33,20 +34,24 @@ export default defineComponent({
           const response = await axios.get('https://rickandmortyapi.com/api/character')
           this.characters = response.data.results
         }
+        this.currentListName = 'characters'
+        this.currentList = [...this.characters]
       },
       async fetchEpisodes() {
         if (this.episodes.length === 0 ) {
           const response = await axios.get('https://rickandmortyapi.com/api/episode')
           this.episodes = response.data.results
-          console.table(response.data.results)
         }
+        this.currentListName = 'episodes'
+        this.currentList = [...this.episodes]
       },
       async fetchLocations() {
         if (this.locations.length === 0 ) {
           const response = await axios.get('https://rickandmortyapi.com/api/location')
           this.locations = response.data.results
-          console.table(response.data.results)
         }
+        this.currentListName = 'locations'
+        this.currentList = [...this.locations]
       },
   }
 })
