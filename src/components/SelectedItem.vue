@@ -1,25 +1,20 @@
 <template>
     <div class="blackBackground" v-if="isVisible" @click="cancelSelection">
         <div class="selectedItem" @click.stop>
-            <h3>{{selectedItem.name}}</h3>
-            <img :src="selectedItem.image" :alt="selectedItem.name" id="Item__Image"/>
-            <p><strong>Статус: </strong>{{selectedItem.status}}</p>
-            <p><strong>Вид: </strong>{{selectedItem.species}}</p>
-            <p><strong>Пол: </strong>{{selectedItem.gender}}</p>
-            <p><strong>Эпизоды: </strong>
-                <ul>
-                    <li v-for="episode in selectedItem.episode">{{episode}}</li>
-                </ul>
-            </p>
+            <selected-character v-if="selectedItem.hasOwnProperty('gender')" :selectedItem="selectedItem"/>
+            <selected-episode v-if="selectedItem.hasOwnProperty('air_date')" :selectedItem="selectedItem"/>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import {defineComponent } from 'vue'
+import SelectedCharacter from './SelectedCharacter.vue'
+import SelectedEpisode from './SelectedCharacter.vue'
 
 export default defineComponent({
     name: 'selected-item',
+    components: {SelectedCharacter, SelectedEpisode},
     props: {
         isVisible: {
             type: Boolean,
