@@ -5,6 +5,12 @@
       <Button @click="fetchCharacters" label="Персонажи"/>
       <Button @click="fetchLocations" label="Локации"/>
     </div>
+    <button @click="showSelected">
+      Показать модальное окно
+    </button>
+    <selected-item v-model:isVisible="isSomethingSelected">
+
+    </selected-item>
     <currentList 
       :currentListName="currentListName" 
       :currentList="currentList"
@@ -14,13 +20,15 @@
 <script lang="ts">
 import {defineComponent} from 'vue'
 import CurrentList from './components/CurrentList.vue'
+import SelectedItem from './components/SelectedItem.vue';
 import axios from 'axios';
 
 export default defineComponent({
   name:' App',
-  components: {CurrentList},
+  components: {CurrentList, SelectedItem},
   data() {
     return {
+      isSomethingSelected: false,
       currentList: [],
       currentListName: '',
       characters: [],
@@ -53,6 +61,9 @@ export default defineComponent({
         this.currentListName = 'locations'
         this.currentList = [...this.locations]
       },
+      showSelected() {
+        this.isSomethingSelected = true
+      }
   }
 })
 </script>

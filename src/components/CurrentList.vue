@@ -33,7 +33,7 @@ export default defineComponent({
     props: ['currentList', 'currentListName'],
     data() {
         return {}
-    }
+    },
 })
 </script>
 
