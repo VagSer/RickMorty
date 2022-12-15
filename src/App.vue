@@ -1,18 +1,18 @@
 <template>
   <h2>Рик и Морти</h2>
   <button @click="fetchCharacters">Персонажи</button>
-  <div v-for="character in characters" :key="character.name">
-    <h3>{{character.name}}</h3>
-    <img :src="character.image" :alt="character.name"/>
-  </div>
+  <characters-list :characters="characters"/>
+
 </template>
 
 <script lang="ts">
 import {defineComponent} from 'vue';
+import CharactersList from './components/CharactersList.vue'
 import axios from 'axios';
 
 export default defineComponent({
   name:' App',
+  components: {CharactersList},
   data() {
     return {
       characters: []
@@ -20,8 +20,11 @@ export default defineComponent({
   },
   methods: {
       async fetchCharacters() {
-        const response = await axios.get('https://rickandmortyapi.com/api/character')
-        this.characters = response.data.results
+        if (this.characters.length === 0 ) {
+          const response = await axios.get('https://rickandmortyapi.com/api/character')
+          this.characters = response.data.results
+          console.table(response.data.results)
+        }
       }
   }
 })
