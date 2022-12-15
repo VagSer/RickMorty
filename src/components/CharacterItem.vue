@@ -36,7 +36,8 @@ export default defineComponent({
         async getMoreInfo(){
             const response = await axios.get(`https://rickandmortyapi.com/api/character/${this.character.id}`)
             const data = await response.data
-            console.table(data)
+            this.$emit('update:selectedItem', data)
+            this.$emit('update:isSomethingSelected', true)
         }
     }
 })

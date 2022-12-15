@@ -1,7 +1,16 @@
 <template>
     <div class="blackBackground" v-if="isVisible" @click="cancelSelection">
         <div class="selectedItem" @click.stop>
-            <h3>Я модальное окно</h3>
+            <h3>{{selectedItem.name}}</h3>
+            <img :src="selectedItem.image" :alt="selectedItem.name" id="Item__Image"/>
+            <p><strong>Статус: </strong>{{selectedItem.status}}</p>
+            <p><strong>Вид: </strong>{{selectedItem.species}}</p>
+            <p><strong>Пол: </strong>{{selectedItem.gender}}</p>
+            <p><strong>Эпизоды: </strong>
+                <ul>
+                    <li v-for="episode in selectedItem.episode">{{episode}}</li>
+                </ul>
+            </p>
         </div>
     </div>
 </template>
@@ -17,7 +26,8 @@ export default defineComponent({
             default: false,
         },
         selectedItem: {
-            type: Object
+            type: Object,
+            required: true
         }
     },
     data() {
@@ -44,8 +54,9 @@ export default defineComponent({
 .selectedItem {
     margin: auto;
     background: white;
-    width: 500px;
-    height: 500px;
+    width: min(95%, 600px);
+    margin: 10px auto;
+    overflow: scroll;
     padding: 20px;
 }
 </style>

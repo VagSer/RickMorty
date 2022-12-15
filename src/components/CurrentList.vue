@@ -1,4 +1,9 @@
-<template>        
+<template>
+    <selected-item 
+        v-model:isVisible="isSomethingSelected" 
+        :selectedItem = "selectedItem"
+    >
+    </selected-item>        
     <div class="List">
         <location-item
             v-if="currentListName==='locations'" 
@@ -17,6 +22,8 @@
             v-for="character in currentList" 
             :key="character.name" 
             :character="character"
+            v-model:selectedItem = "selectedItem"
+            v-model:isSomethingSelected = "isSomethingSelected"
         />
     </div>
 </template>
@@ -26,13 +33,17 @@ import {defineComponent} from 'vue'
 import LocationItem from './LocationItem.vue'
 import EpisodeItem from './EpisodeItem.vue'
 import CharacterItem from './CharacterItem.vue'
+import SelectedItem from './SelectedItem.vue'
 
 export default defineComponent({
     name: 'current-list',
-    components: {LocationItem, EpisodeItem, CharacterItem},
+    components: {LocationItem, EpisodeItem, CharacterItem, SelectedItem},
     props: ['currentList', 'currentListName'],
     data() {
-        return {}
+        return {
+            isSomethingSelected: false,
+            selectedItem: {},
+        }
     },
 })
 </script>
