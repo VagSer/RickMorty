@@ -69,7 +69,7 @@ export default defineComponent({
   },
   computed: {
     searchedList() {
-      return [...this.currentList.filter(item => item.name.includes(this.searchingName))]
+      return [...this.currentList.filter(item => item.name.toLowerCase().includes(this.searchingName))]
     }
   }
 })
