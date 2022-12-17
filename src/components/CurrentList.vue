@@ -10,6 +10,8 @@
             v-for="location in currentList" 
             :key="location.name" 
             :location="location"
+            v-model:selectedItem = "selectedItem"
+            v-model:isSomethingSelected = "isSomethingSelected"
         />
         <episode-item 
             v-else-if="currentListName==='episodes'"

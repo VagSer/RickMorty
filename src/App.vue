@@ -1,5 +1,6 @@
 <template>
   <h2>Рик и Морти</h2>
+  <h3>{{$store.state.currentListName}}</h3>
     <div>
       <Button @click="fetchEpisodes" label="Эпизоды"/>
       <Button @click="fetchCharacters" label="Персонажи"/>
@@ -14,7 +15,7 @@
 <script lang="ts">
 import {defineComponent} from 'vue'
 import CurrentList from './components/CurrentList.vue'
-import axios from 'axios';
+import axios from 'axios'
 
 export default defineComponent({
   name:' App',
@@ -53,7 +54,8 @@ export default defineComponent({
         this.currentListName = 'locations'
         this.currentList = [...this.locations]
       },
-  }
+  },
+
 })
 </script>
 

@@ -3,6 +3,7 @@
         <div class="selectedItem" @click.stop>
             <selected-episode v-if="selectedItem.hasOwnProperty('air_date')" :selectedItem="selectedItem"/>
             <selected-character v-if="selectedItem.hasOwnProperty('gender')" :selectedItem="selectedItem"/>
+            <selected-location v-else :selectedItem="selectedItem"/>
         </div>
     </div>
 </template>
@@ -11,10 +12,11 @@
 import {defineComponent } from 'vue'
 import SelectedCharacter from './SelectedCharacter.vue'
 import SelectedEpisode from './SelectedEpisode.vue'
+import SelectedLocation from './SelectedLocation.vue'
 
 export default defineComponent({
     name: 'selected-item',
-    components: {SelectedCharacter, SelectedEpisode},
+    components: {SelectedCharacter, SelectedEpisode, SelectedLocation},
     props: {
         isVisible: {
             type: Boolean,

@@ -8,13 +8,17 @@
             <p><strong>Измерение:</strong> {{location.dimension}}</p>
         </template>
         <template #footer>
-            <Button label="Подробности" />
+            <Button 
+                @click="getMoreInfo"
+                label="Подробности" 
+            />
         </template>
     </Card>
 </template>
 
 <script lang="ts">
-import {defineComponent } from 'vue';
+import {defineComponent } from 'vue'
+import axios from 'axios'
 
 export default defineComponent({
     name: 'location-item',
@@ -26,6 +30,14 @@ export default defineComponent({
     },
     data() {
         return {}
+    },
+    methods: {
+        async getMoreInfo(){
+            const response = await axios.get(`https://rickandmortyapi.com/api/location/${this.location.id}`)
+            const data = await response.data
+            this.$emit('update:selectedItem', data)
+            this.$emit('update:isSomethingSelected', true)
+        }
     }
 })
 </script>
