@@ -3,13 +3,15 @@
         <div class="selectedItem" @click.stop>
             <selected-episode v-if="selectedItem.hasOwnProperty('air_date')" 
                 v-model:selectedItem="selectedItem"
-                
+                @update="updateSelection"
             />
             <selected-character v-if="selectedItem.hasOwnProperty('gender')" 
                 v-model:selectedItem="selectedItem"
                 @update="updateSelection"
             />
-            <selected-location v-if="selectedItem.hasOwnProperty('residents')" v-model:selectedItem="selectedItem"/>
+            <selected-location v-if="selectedItem.hasOwnProperty('residents')" 
+                v-model:selectedItem="selectedItem"
+            />
         </div>
     </div>
 </template>
