@@ -11,6 +11,7 @@
             />
             <selected-location v-if="selectedItem.hasOwnProperty('residents')" 
                 v-model:selectedItem="selectedItem"
+                @update="updateSelection"
             />
         </div>
     </div>
