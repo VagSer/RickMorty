@@ -7,7 +7,6 @@ import App from './App.vue'
 import PrimeVue from 'primevue/config'
 import Card from 'primevue/card'
 import Button from 'primevue/button'
-import store from './store'
 
 const app = createApp(App)
 
@@ -16,5 +15,4 @@ app.component('Button', Button)
 
 app
     .use(PrimeVue)
-    .use(store)
     .mount('#app')
