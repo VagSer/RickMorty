@@ -3,7 +3,10 @@
         v-model:isVisible="isSomethingSelected" 
         v-model:selectedItem = "selectedItem"
     >
-    </selected-item>        
+    </selected-item>
+    <h1 v-if="(currentList.length===0) && (searchingName!=='')" class="Warning">
+        По запросу ничего не найдено :(
+    </h1>       
     <div class="List">
         <location-item
             v-if="currentListName==='locations'" 
@@ -42,7 +45,7 @@ import SelectedItem from './SelectedItem.vue'
 export default defineComponent({
     name: 'current-list',
     components: {LocationItem, EpisodeItem, CharacterItem, SelectedItem},
-    props: ['currentList', 'currentListName'],
+    props: ['searchingName', 'currentList', 'currentListName'],
     data() {
         return {
             isSomethingSelected: false,
@@ -53,4 +56,7 @@ export default defineComponent({
 </script>
 
 <style>
+.Warning {
+    text-align: center;
+}
 </style>

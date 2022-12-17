@@ -1,13 +1,22 @@
 <template>
   <h2>Рик и Морти</h2>
-    <div>
-      <Button @click="fetchEpisodes" label="Эпизоды"/>
-      <Button @click="fetchCharacters" label="Персонажи"/>
-      <Button @click="fetchLocations" label="Локации"/>
+    <div class="Panel">
+      <div>
+        <Button @click="fetchEpisodes" label="Эпизоды"/>
+        <Button @click="fetchCharacters" label="Персонажи"/>
+        <Button @click="fetchLocations" label="Локации"/>
+      </div>
+        <input-text 
+          id="serachingName" 
+          type="text"
+          placeholder="Имя / Название"
+          v-model="searchingName"
+        />
     </div>
     <currentList 
+      :searchingName="searchingName"
       :currentListName="currentListName" 
-      :currentList="currentList"
+      :currentList="searchedList"
     />
 </template>
 
@@ -22,6 +31,7 @@ export default defineComponent({
   data() {
     return {
       currentList: [],
+      searchingName: '',
       currentListName: '',
       characters: [],
       episodes: [],
@@ -36,6 +46,7 @@ export default defineComponent({
         }
         this.currentListName = 'characters'
         this.currentList = [...this.characters]
+        this.searchingName = ''
       },
       async fetchEpisodes() {
         if (this.episodes.length === 0 ) {
@@ -44,6 +55,7 @@ export default defineComponent({
         }
         this.currentListName = 'episodes'
         this.currentList = [...this.episodes]
+        this.searchingName = ''
       },
       async fetchLocations() {
         if (this.locations.length === 0 ) {
@@ -52,13 +64,23 @@ export default defineComponent({
         }
         this.currentListName = 'locations'
         this.currentList = [...this.locations]
+        this.searchingName = ''
       },
   },
+  computed: {
+    searchedList() {
+      return [...this.currentList.filter(item => item.name.includes(this.searchingName))]
+    }
+  }
 })
 </script>
 
 
 <style>
+.Panel {
+  display: flex;
+  justify-content: space-around;
+}
 .List {
   display: flex;
   flex-wrap: wrap;
