@@ -7,7 +7,9 @@
             <p><strong>Пол: </strong>{{selectedItem.gender}}</p>
             <p><strong>Эпизоды: </strong>
             <ul>
-                <li v-for="episode in selectedItem.episode">{{episode}}</li>
+                <li v-for="episode in selectedItem.episode">
+                    <p @click="getMoreInfo(episode)">{{episode}}</p>
+                </li>
             </ul>
         </p>
     </div>
@@ -15,13 +17,21 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import axios from 'axios'
 
 export default defineComponent({
     name: 'selected-character',
-    props: {
-        selectedItem: {
-            type: Object,
-            required: true
+    props: ['selectedItem'],
+    data() {
+        return {
+            newSelect: {}
+        }
+    },
+    methods: {
+        async getMoreInfo(episode: string){
+            const response = await axios.get(`${episode}`)
+            this.newSelect = await response.data
+            this.$emit('update', this.newSelect)
         }
     }
 })

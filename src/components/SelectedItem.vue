@@ -1,9 +1,15 @@
 <template>
     <div class="blackBackground" v-if="isVisible" @click="cancelSelection">
         <div class="selectedItem" @click.stop>
-            <selected-episode v-if="selectedItem.hasOwnProperty('air_date')" :selectedItem="selectedItem"/>
-            <selected-character v-if="selectedItem.hasOwnProperty('gender')" :selectedItem="selectedItem"/>
-            <selected-location v-if="selectedItem.hasOwnProperty('residents')" :selectedItem="selectedItem"/>
+            <selected-episode v-if="selectedItem.hasOwnProperty('air_date')" 
+                v-model:selectedItem="selectedItem"
+                
+            />
+            <selected-character v-if="selectedItem.hasOwnProperty('gender')" 
+                v-model:selectedItem="selectedItem"
+                @update="updateSelection"
+            />
+            <selected-location v-if="selectedItem.hasOwnProperty('residents')" v-model:selectedItem="selectedItem"/>
         </div>
     </div>
 </template>
@@ -27,13 +33,13 @@ export default defineComponent({
             required: true
         }
     },
-    data() {
-        return {}
-    },
     methods: {
         cancelSelection() {
             this.$emit('update:isVisible', false)
             this.$emit('update:selectedItem', {})
+        },
+        updateSelection(newSelect: object) {
+            this.$emit('update:selectedItem', newSelect)
         }
     }
 })
