@@ -2,6 +2,9 @@
   <h2>Рик и Морти</h2>
   <h3>{{$store.state.currentListName}}</h3>
     <div>
+      <Button @click="$store.commit()">
+        Подгрузить данные в Store
+      </Button>
       <Button @click="fetchEpisodes" label="Эпизоды"/>
       <Button @click="fetchCharacters" label="Персонажи"/>
       <Button @click="fetchLocations" label="Локации"/>
@@ -55,7 +58,7 @@ export default defineComponent({
         this.currentList = [...this.locations]
       },
   },
-
+  
 })
 </script>
 

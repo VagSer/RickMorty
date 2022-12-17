@@ -1,9 +1,10 @@
-import { createStore } from "vuex";
+import { createStore } from "vuex"
+import axios from "axios"
 
 export default createStore({
     state: {
         currentList: [],
-        currentListName: 'А теперь сработает?',
+        currentListName: '',
         characters: [],
         episodes: [],
         locations: [],
