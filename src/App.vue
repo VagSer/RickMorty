@@ -54,7 +54,6 @@ export default defineComponent({
         this.currentList = [...this.locations]
       },
   },
-  
 })
 </script>
 

@@ -3,7 +3,7 @@
         <div class="selectedItem" @click.stop>
             <selected-episode v-if="selectedItem.hasOwnProperty('air_date')" :selectedItem="selectedItem"/>
             <selected-character v-if="selectedItem.hasOwnProperty('gender')" :selectedItem="selectedItem"/>
-            <selected-location v-else :selectedItem="selectedItem"/>
+            <selected-location v-if="selectedItem.hasOwnProperty('residents')" :selectedItem="selectedItem"/>
         </div>
     </div>
 </template>
@@ -52,7 +52,7 @@ export default defineComponent({
 .selectedItem {
     margin: auto;
     background: white;
-    width: min(95%, 600px);
+    width: min(85%, 600px);
     margin: 10px auto;
     overflow: scroll;
     overflow-x:hidden;  
