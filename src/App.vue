@@ -1,5 +1,5 @@
 <template>
-  <h2>Рик и Морти</h2>
+  <h2 style="text-align: center">Рик и Морти</h2>
     <div class="Panel">
       <div>
         <Button 

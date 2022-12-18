@@ -1,19 +1,24 @@
 <template>
     <div class="blackBackground" v-if="isVisible" @click="cancelSelection">
-        <div class="selectedItem" @click.stop>
-            <selected-episode v-if="selectedItem.hasOwnProperty('air_date')" 
+        <Card class="selectedItem" @click.stop>
+            <template #title>
+                {{selectedItem.name}}
+            </template>
+            <template #content>
+                <selected-episode v-if="selectedItem.hasOwnProperty('air_date')" 
                 v-model:selectedItem="selectedItem"
                 @update="updateSelection"
-            />
-            <selected-character v-if="selectedItem.hasOwnProperty('gender')" 
+                />
+                <selected-character v-if="selectedItem.hasOwnProperty('gender')" 
                 v-model:selectedItem="selectedItem"
                 @update="updateSelection"
-            />
-            <selected-location v-if="selectedItem.hasOwnProperty('residents')" 
+                />
+                <selected-location v-if="selectedItem.hasOwnProperty('residents')" 
                 v-model:selectedItem="selectedItem"
                 @update="updateSelection"
-            />
-        </div>
+                />
+            </template>
+        </Card>
     </div>
 </template>
 
@@ -65,6 +70,5 @@ export default defineComponent({
     margin: 10px auto;
     overflow: scroll;
     overflow-x:hidden;  
-    padding: 20px;
 }
 </style>

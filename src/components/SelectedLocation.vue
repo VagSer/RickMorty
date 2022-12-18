@@ -1,16 +1,13 @@
 <template>
-    <div>
-        <h3>{{selectedItem.name}}</h3>
-            <p><strong>Измерение: </strong>{{selectedItem.dimension}}</p>
-            <p><strong>Тип: </strong>{{selectedItem.type}}</p>
-            <p><strong>Персонажи: </strong>
-            <ul>
-                <li v-for="resident in selectedItem.residents">
-                    <p @click="getMoreInfo(resident)">{{resident}}</p>
-                </li>
-            </ul>
+        <p><strong>Измерение: </strong>{{selectedItem.dimension}}</p>
+        <p><strong>Тип: </strong>{{selectedItem.type}}</p>
+        <p><strong>Персонажи: </strong>
+        <ul>
+            <li v-for="resident in selectedItem.residents">
+                 <p @click="getMoreInfo(resident)">{{resident}}</p>
+            </li>
+        </ul>
         </p>
-    </div>
 </template>
 
 <script lang="ts">

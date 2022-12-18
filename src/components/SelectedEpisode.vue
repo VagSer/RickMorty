@@ -1,16 +1,13 @@
 <template>
-    <div>
-        <h3>{{selectedItem.name}}</h3>
-            <p><strong>Дата выхода: </strong>{{selectedItem.air_date}}</p>
-            <p><strong>Эпизод: </strong>{{selectedItem.episode}}</p>
-            <p><strong>Персонажи: </strong>
-            <ul>
-                <li v-for="character in selectedItem.characters">
-                    <p @click="getMoreInfo(character)">{{character}}</p>
-                </li>
-            </ul>
-        </p>
-    </div>
+    <p><strong>Дата выхода: </strong>{{selectedItem.air_date}}</p>
+    <p><strong>Эпизод: </strong>{{selectedItem.episode}}</p>
+    <p><strong>Персонажи: </strong>
+        <ul>
+            <li v-for="character in selectedItem.characters">
+                <p @click="getMoreInfo(character)">{{character}}</p>
+            </li>
+        </ul>
+    </p>
 </template>
 
 <script lang="ts">

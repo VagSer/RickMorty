@@ -1,9 +1,4 @@
 <template>
-    <selected-item 
-        v-model:isVisible="isSomethingSelected" 
-        v-model:selectedItem = "selectedItem"
-    >
-    </selected-item>
     <SelectButton
         class="Select"
         v-model="characterStatus"
@@ -19,7 +14,43 @@
           placeholder="Имя / Название"
           v-model="searchingName"
           @input="searchList"
-    />     
+    />  
+    <selected-item 
+        v-model:isVisible="isSomethingSelected" 
+        v-model:selectedItem = "selectedItem"
+        style="z-index: 1"
+    >
+    </selected-item>
+    <div v-if="currentListName==='episode'" class="Pagination">
+        <Button 
+            v-for="season in seasons" 
+            v-key="season"
+            :disabled="season === currentPage"
+            style="z-index: 0"
+            @click="fetchData(season)"
+        >
+            {{season}}
+        </Button>
+    </div>
+    <div v-else v-if="currentList.length>0" class="Pagination">
+        <Button
+            v-if="prevNumber > 0"
+            @click="fetchData(prevPage)"
+        >
+            {{prevNumber}}
+        </Button>
+        <Button
+            disabled
+        >
+            {{currentPage}}
+        </Button>
+        <Button
+            v-if="nextPage !== null"
+            @click="fetchData(nextPage)"
+        >
+            {{nextNumber}}
+        </Button>
+    </div>   
     <div class="List">
         <location-item
             v-if="currentListName==='location'" 
@@ -45,35 +76,6 @@
             v-model:selectedItem = "selectedItem"
             v-model:isSomethingSelected = "isSomethingSelected"
         />
-    </div>
-    <div v-if="currentListName==='episode'" class="Pagination">
-        <Button 
-            v-for="season in seasons" 
-            v-key="season"
-            :disabled="season === currentPage"
-            @click="fetchData(season)"
-        >
-            {{season}}
-        </Button>
-    </div>
-    <div v-else v-if="currentList.length>0" class="Pagination">
-        <Button
-            v-if="prevNumber > 0"
-            @click="fetchData(prevPage)"
-        >
-            {{prevNumber}}
-        </Button>
-        <Button
-            disabled
-        >
-            {{currentPage}}
-        </Button>
-        <Button
-            v-if="nextPage !== null"
-            @click="fetchData(nextPage)"
-        >
-            {{nextNumber}}
-        </Button>
     </div>
 </template>
 
