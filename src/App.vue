@@ -2,9 +2,9 @@
   <h2>Рик и Морти</h2>
     <div class="Panel">
       <div>
-        <Button @click="fetchEpisodes" label="Эпизоды"/>
-        <Button @click="fetchCharacters" label="Персонажи"/>
-        <Button @click="fetchLocations" label="Локации"/>
+        <Button @click="fetchList('episode')" label="Эпизоды"/>
+        <Button @click="fetchList('character')" label="Персонажи"/>
+        <Button @click="fetchList('location')" label="Локации"/>
       </div>
         <input-text 
           id="serachingName" 
@@ -36,43 +36,18 @@ export default defineComponent({
       currentList: [],
       searchingName: '',
       currentListName: '',
-      characters: [],
-      episodes: [],
-      locations: [],
       nextPage: '',
       prevPage: null,
     }
   },
   methods: {
-      async fetchCharacters() {
-        if (this.characters.length === 0 ) {
-          const response = await axios.get('https://rickandmortyapi.com/api/character')
-          this.nextPage = response.data.info.next
-          this.characters = response.data.results
-        }
-        this.currentListName = 'character'
-        this.currentList = [...this.characters]
+      async fetchList(name: string) {
+        this.currentListName = name
         this.searchingName = ''
-      },
-      async fetchEpisodes() {
-        if (this.episodes.length === 0 ) {
-          const response = await axios.get('https://rickandmortyapi.com/api/episode')
-          this.nextPage = response.data.info.next
-          this.episodes = response.data.results
-        }
-        this.currentListName = 'episode'
-        this.currentList = [...this.episodes]
-        this.searchingName = ''
-      },
-      async fetchLocations() {
-        if (this.locations.length === 0 ) {
-          const response = await axios.get('https://rickandmortyapi.com/api/location')
-          this.nextPage = response.data.info.next
-          this.locations = response.data.results
-        }
-        this.currentListName = 'location'
-        this.currentList = [...this.locations]
-        this.searchingName = ''
+        const response = await axios.get(`https://rickandmortyapi.com/api/${name}`)
+        this.nextPage = response.data.info.next
+        this.prevPage = response.data.info.prev
+        this.currentList = response.data.results
       },
       updateList(newList: any[], newNext: string, newPrev: string) {
         this.currentList = [...newList]

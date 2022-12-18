@@ -4,7 +4,11 @@
         v-model:selectedItem = "selectedItem"
     >
     </selected-item>
-    <select v-model="characterStatus" @change="fetchData(`https://rickandmortyapi.com/api/character/?status=${characterStatus}`)">
+    <select 
+        v-model="characterStatus" 
+        @change="fetchData(`https://rickandmortyapi.com/api/character/?status=${characterStatus}&page=${currentNumber}`)"
+        v-if="currentListName==='character'"    
+    >
             <option disabled value="">Любой статус</option>
             <option value="alive">Жив</option>
             <option value="dead">Мертв</option>
@@ -89,7 +93,7 @@ export default defineComponent({
                 this.currentNumber++
                 this.nextNumber++
                 this.prevNumber++           
-            } else {
+            } else if (url === this.prevPage) {
                 this.currentNumber--
                 this.nextNumber--
                 this.prevNumber-- 
