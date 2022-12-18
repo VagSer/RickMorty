@@ -59,7 +59,7 @@ export default defineComponent({
         }
         this.currentList = response.data.results
         this.currentPage = 1
-        this.fetchAdditionalData()
+        this.fetchAdditionalData(response.data.results)
       },
       updateList(newList: any[], newNext: string, newPrev: string, newCurrent: number) {
         this.currentList = [...newList]
@@ -67,8 +67,8 @@ export default defineComponent({
         this.prevPage = newPrev
         this.currentPage = newCurrent
       },
-      async fetchAdditionalData() {
-        console.log('Подгрузилось')
+      async fetchAdditionalData(args: any[]) {
+        console.log(args)
       }
   },
 })
