@@ -4,16 +4,22 @@
         v-model:selectedItem = "selectedItem"
     >
     </selected-item>
-    <select 
-        v-model="characterStatus" 
-        @change="fetchData(`https://rickandmortyapi.com/api/character/?status=${characterStatus}&page=${currentPage}`)"
-        v-if="currentListName==='character'"    
-    >
-            <option value="">Любой статус</option>
-            <option value="alive">Жив</option>
-            <option value="dead">Мертв</option>
-            <option value="unknown">Неизвестно</option>
-    </select>     
+    <SelectButton
+        class="Select"
+        v-model="characterStatus"
+        v-if="currentListName==='character'" 
+        :options="statuses" 
+        optionLabel="name"
+        @click="fetchData(`https://rickandmortyapi.com/api/character/?status=${characterStatus.code}&page=${currentPage}`)"
+    />
+    <input-text 
+          id="searchingName" 
+          class="Select"
+          type="text"
+          placeholder="Имя / Название"
+          v-model="searchingName"
+          @input="searchList"
+    />     
     <div class="List">
         <location-item
             v-if="currentListName==='location'" 
@@ -82,7 +88,7 @@ import axios from 'axios'
 export default defineComponent({
     name: 'current-list',
     components: {LocationItem, EpisodeItem, CharacterItem, SelectedItem},
-    props: ['searchingName', 'currentList', 'currentListName', 'nextPage', 'prevPage', 'currentPage'],
+    props: ['currentList', 'currentListName', 'nextPage', 'prevPage', 'currentPage'],
     data() {
         return {
             isSomethingSelected: false,
@@ -90,7 +96,14 @@ export default defineComponent({
             nextNumber: 2,
             prevNumber: 0,
             seasons: [1, 2, 3, 4, 5],
-            characterStatus: ''
+            statuses: [
+                {name: "Любой", code: ''},
+                {name: "Жив", code: 'alive'},
+                {name: "Мёртв", code: 'dead'},
+                {name: "Неизвестно", code: 'unknown'},
+            ],
+            characterStatus: {name: "Любой", code: ''},
+            searchingName: ''
         }
     },
     methods: {
@@ -124,6 +137,15 @@ export default defineComponent({
             }
             this.$emit('update', newList, newNext, newPrev, newCurrent)
         },
+        async searchList() {
+          const response = await axios.get(`https://rickandmortyapi.com/api/${this.currentListName}/?status=${this.characterStatus.code}&name=${this.searchingName}`)
+          console.log(`https://rickandmortyapi.com/api/${this.currentListName}/?status=${this.characterStatus.code}&?name=${this.searchingName}`)
+          let newList = response.data.results
+          let newNext = response.data.info.next
+          let newPrev = response.data.info.prev
+          let newCurrent = 1
+          this.$emit('update', newList, newNext, newPrev, newCurrent)
+        },
     }
 })
 </script>
@@ -137,5 +159,11 @@ export default defineComponent({
     margin: 2px auto;
     width: 300px;
     justify-content: space-evenly;
+}
+.Select {
+    display: flex;
+    width: min(500px, 70%);
+    justify-content: center;
+    margin: 10px auto;
 }
 </style>

@@ -2,21 +2,22 @@
   <h2>Рик и Морти</h2>
     <div class="Panel">
       <div>
-        <Button @click="fetchList('episode')" label="Эпизоды"/>
-        <Button @click="fetchList('character')" label="Персонажи"/>
-        <Button @click="fetchList('location')" label="Локации"/>
-      </div>
-        <input-text 
-          id="serachingName" 
-          type="text"
-          placeholder="Имя / Название"
-          v-model="searchingName"
-          @input="searchList"
+        <Button 
+          :disabled="currentListName==='episode'"
+          @click="fetchList('episode')" label="Эпизоды"
         />
+        <Button 
+          :disabled="currentListName==='character'"
+          @click="fetchList('character')" label="Персонажи"
+        />
+        <Button 
+          :disabled="currentListName==='location'"
+          @click="fetchList('location')" label="Локации"
+        />
+      </div>
     </div>
     <currentList 
       v-if="currentList.length>0"
-      :searchingName="searchingName"
       :currentListName="currentListName" 
       :currentList="currentList"
       :currentPage="currentPage"
@@ -37,7 +38,6 @@ export default defineComponent({
   data() {
     return {
       currentList: [] as any[],
-      searchingName: '',
       currentListName: '',
       currentPage: 1,
       nextPage: '',
@@ -47,7 +47,6 @@ export default defineComponent({
   methods: {
       async fetchList(name: string) {
         this.currentListName = name
-        this.searchingName = ''
         let response
         if (name === 'episode') {
           response = await axios.get('https://rickandmortyapi.com/api/episode/?episode=S01')
@@ -61,21 +60,11 @@ export default defineComponent({
         this.currentList = response.data.results
         this.currentPage = 1
       },
-      async searchList() {
-        if (this.currentListName) {
-          const response = await axios.get(`https://rickandmortyapi.com/api/${this.currentListName}/?name=${this.searchingName}`)
-          this.nextPage = response.data.info.next
-          this.prevPage = response.data.info.prev
-          this.currentList = response.data.results
-        }
-      },
       updateList(newList: any[], newNext: string, newPrev: string, newCurrent: number) {
         this.currentList = [...newList]
         this.nextPage = newNext
         this.prevPage = newPrev
-        this.searchingName = ''
         this.currentPage = newCurrent
-        console.log(this.currentPage)
       }
   },
 })
@@ -86,6 +75,7 @@ export default defineComponent({
 .Panel {
   display: flex;
   justify-content: space-around;
+  margin: 10px;
 }
 .List {
   display: flex;

@@ -8,14 +8,14 @@ import PrimeVue from 'primevue/config'
 import Card from 'primevue/card'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
-import TreeSelect from 'primevue/treeselect';
+import SelectButton from 'primevue/selectbutton';
 
 const app = createApp(App)
 
 app.component('Card', Card)
 app.component('Button', Button)
 app.component('InputText', InputText)
-app.component('TreeSelect', TreeSelect)
+app.component('SelectButton', SelectButton)
 
 app
     .use(PrimeVue)
