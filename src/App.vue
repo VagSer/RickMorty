@@ -11,12 +11,14 @@
           type="text"
           placeholder="Имя / Название"
           v-model="searchingName"
+          @input="searchList"
         />
     </div>
     <currentList 
+      v-if="currentList.length>0"
       :searchingName="searchingName"
       :currentListName="currentListName" 
-      :currentList="searchedList"
+      :currentList="currentList"
       :nextPage="nextPage"
       :prevPage="prevPage"
       @update="updateList"
@@ -37,29 +39,40 @@ export default defineComponent({
       searchingName: '',
       currentListName: '',
       nextPage: '',
-      prevPage: null,
+      prevPage: '',
     }
   },
   methods: {
       async fetchList(name: string) {
         this.currentListName = name
         this.searchingName = ''
-        const response = await axios.get(`https://rickandmortyapi.com/api/${name}`)
-        this.nextPage = response.data.info.next
-        this.prevPage = response.data.info.prev
+        let response
+        if (name === 'episode') {
+          response = await axios.get('https://rickandmortyapi.com/api/episode/?episode=S01')
+          this.nextPage = 'https://rickandmortyapi.com/api/episode/?episode=S02'
+          this.prevPage = ''
+        } else {
+          response = await axios.get(`https://rickandmortyapi.com/api/${name}`)
+          this.nextPage = response.data.info.next
+          this.prevPage = response.data.info.prev
+        }
         this.currentList = response.data.results
+      },
+      async searchList() {
+        if (this.currentListName) {
+          const response = await axios.get(`https://rickandmortyapi.com/api/${this.currentListName}/?name=${this.searchingName}`)
+          this.nextPage = response.data.info.next
+          this.prevPage = response.data.info.prev
+          this.currentList = response.data.results
+        }
       },
       updateList(newList: any[], newNext: string, newPrev: string) {
         this.currentList = [...newList]
         this.nextPage = newNext
         this.prevPage = newPrev
+        this.searchingName = ''
       }
   },
-  computed: {
-    searchedList() {
-      return [...this.currentList.filter(item => item.name.toLowerCase().includes(this.searchingName) || item.name.includes(this.searchingName))]
-    }
-  }
 })
 </script>
 

@@ -43,7 +43,17 @@
             v-model:isSomethingSelected = "isSomethingSelected"
         />
     </div>
-    <div v-if="currentList.length>0" class="Pagination">
+    <div v-if="currentListName==='episode'" class="Pagination">
+        <Button 
+            v-for="season in seasons" 
+            v-key="season"
+            :disabled="season === currentNumber"
+            @click="fetchData(season)"
+        >
+            {{season}}
+        </Button>
+    </div>
+    <div v-else v-if="currentList.length>0" class="Pagination">
         <Button
             v-if="prevNumber > 0"
             @click="fetchData(prevPage)"
@@ -75,20 +85,20 @@ import axios from 'axios'
 export default defineComponent({
     name: 'current-list',
     components: {LocationItem, EpisodeItem, CharacterItem, SelectedItem},
-    props: ['searchingName', 'currentList', 'currentListName', 'nextPage'],
+    props: ['searchingName', 'currentList', 'currentListName', 'nextPage', 'prevPage'],
     data() {
         return {
             isSomethingSelected: false,
             selectedItem: {},
-            prevPage: null,
             currentNumber: 1,
             nextNumber: 2,
             prevNumber: 0,
+            seasons: [1, 2, 3, 4, 5],
             characterStatus: ''
         }
     },
     methods: {
-        async fetchData(url: string) {
+        async fetchData(url: string | number) {
             if (url === this.nextPage) {
                 this.currentNumber++
                 this.nextNumber++
@@ -98,13 +108,22 @@ export default defineComponent({
                 this.nextNumber--
                 this.prevNumber-- 
             }
-            console.log(this.characterStatus)
-            const response = await axios.get(url)
-            const newList = response.data.results
-            const newNext = response.data.info.next
-            const newPrev = response.data.info.prev
-            this.prevPage = newPrev
-            this.$emit('update', newList, newNext, newPrev)
+            let response
+            let newList: string 
+            let newNext: string 
+            let newPrev: string
+            if (this.currentListName === 'episode') {
+                response = await axios.get(`https://rickandmortyapi.com/api/episode/?episode=S0${url.toString()}`)
+                this.currentNumber = url
+                newList = response.data.results
+                this.$emit('update', newList)
+            } else {
+                response = await axios.get(url)
+                newList = response.data.results
+                newNext = response.data.info.next
+                newPrev = response.data.info.prev
+                this.$emit('update', newList, newNext, newPrev)
+            }
         },
     }
 })
