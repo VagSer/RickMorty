@@ -50,7 +50,7 @@ export default defineComponent({
           this.nextPage = response.data.info.next
           this.characters = response.data.results
         }
-        this.currentListName = 'characters'
+        this.currentListName = 'character'
         this.currentList = [...this.characters]
         this.searchingName = ''
       },
@@ -60,7 +60,7 @@ export default defineComponent({
           this.nextPage = response.data.info.next
           this.episodes = response.data.results
         }
-        this.currentListName = 'episodes'
+        this.currentListName = 'episode'
         this.currentList = [...this.episodes]
         this.searchingName = ''
       },
@@ -70,7 +70,7 @@ export default defineComponent({
           this.nextPage = response.data.info.next
           this.locations = response.data.results
         }
-        this.currentListName = 'locations'
+        this.currentListName = 'location'
         this.currentList = [...this.locations]
         this.searchingName = ''
       },

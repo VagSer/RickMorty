@@ -4,12 +4,18 @@
         v-model:selectedItem = "selectedItem"
     >
     </selected-item>
+    <select v-model="characterStatus" @change="fetchData(`https://rickandmortyapi.com/api/character/?status=${characterStatus}`)">
+            <option disabled value="">Любой статус</option>
+            <option value="alive">Жив</option>
+            <option value="dead">Мертв</option>
+            <option value="unknown">Неизвестно</option>
+    </select>
     <h1 v-if="(currentList.length===0) && (searchingName!=='')" class="Warning">
         По запросу ничего не найдено :(
     </h1>       
     <div class="List">
         <location-item
-            v-if="currentListName==='locations'" 
+            v-if="currentListName==='location'" 
             v-for="location in currentList" 
             :key="location.name" 
             :location="location"
@@ -17,7 +23,7 @@
             v-model:isSomethingSelected = "isSomethingSelected"
         />
         <episode-item 
-            v-else-if="currentListName==='episodes'"
+            v-else-if="currentListName==='episode'"
             v-for="episode in currentList" 
             :key="episode.name" 
             :episode="episode"
@@ -25,7 +31,7 @@
             v-model:isSomethingSelected = "isSomethingSelected"
         />
         <character-item 
-            v-else-if="currentListName==='characters'"
+            v-else-if="currentListName==='character'"
             v-for="character in currentList" 
             :key="character.name" 
             :character="character"
@@ -35,7 +41,7 @@
     </div>
     <div v-if="currentList.length>0" class="Pagination">
         <Button
-            v-if="prevPage !== null"
+            v-if="prevNumber > 0"
             @click="fetchData(prevPage)"
         >
             {{prevNumber}}
@@ -73,7 +79,8 @@ export default defineComponent({
             prevPage: null,
             currentNumber: 1,
             nextNumber: 2,
-            prevNumber: 0
+            prevNumber: 0,
+            characterStatus: ''
         }
     },
     methods: {
@@ -87,6 +94,7 @@ export default defineComponent({
                 this.nextNumber--
                 this.prevNumber-- 
             }
+            console.log(this.characterStatus)
             const response = await axios.get(url)
             const newList = response.data.results
             const newNext = response.data.info.next
