@@ -6,22 +6,19 @@
     </selected-item>
     <select 
         v-model="characterStatus" 
-        @change="fetchData(`https://rickandmortyapi.com/api/character/?status=${characterStatus}&page=${currentNumber}`)"
+        @change="fetchData(`https://rickandmortyapi.com/api/character/?status=${characterStatus}&page=${currentPage}`)"
         v-if="currentListName==='character'"    
     >
-            <option disabled value="">Любой статус</option>
+            <option value="">Любой статус</option>
             <option value="alive">Жив</option>
             <option value="dead">Мертв</option>
             <option value="unknown">Неизвестно</option>
-    </select>
-    <h1 v-if="(currentList.length===0) && (searchingName!=='')" class="Warning">
-        По запросу ничего не найдено :(
-    </h1>       
+    </select>     
     <div class="List">
         <location-item
             v-if="currentListName==='location'" 
             v-for="location in currentList" 
-            :key="location.name" 
+            v-key="location.id" 
             :location="location"
             v-model:selectedItem = "selectedItem"
             v-model:isSomethingSelected = "isSomethingSelected"
@@ -29,7 +26,7 @@
         <episode-item 
             v-else-if="currentListName==='episode'"
             v-for="episode in currentList" 
-            :key="episode.name" 
+            v-key="episode.id" 
             :episode="episode"
             v-model:selectedItem = "selectedItem"
             v-model:isSomethingSelected = "isSomethingSelected"
@@ -37,7 +34,7 @@
         <character-item 
             v-else-if="currentListName==='character'"
             v-for="character in currentList" 
-            :key="character.name" 
+            v-key="character.id" 
             :character="character"
             v-model:selectedItem = "selectedItem"
             v-model:isSomethingSelected = "isSomethingSelected"
@@ -47,7 +44,7 @@
         <Button 
             v-for="season in seasons" 
             v-key="season"
-            :disabled="season === currentNumber"
+            :disabled="season === currentPage"
             @click="fetchData(season)"
         >
             {{season}}
@@ -63,7 +60,7 @@
         <Button
             disabled
         >
-            {{currentNumber}}
+            {{currentPage}}
         </Button>
         <Button
             v-if="nextPage !== null"
@@ -85,12 +82,11 @@ import axios from 'axios'
 export default defineComponent({
     name: 'current-list',
     components: {LocationItem, EpisodeItem, CharacterItem, SelectedItem},
-    props: ['searchingName', 'currentList', 'currentListName', 'nextPage', 'prevPage'],
+    props: ['searchingName', 'currentList', 'currentListName', 'nextPage', 'prevPage', 'currentPage'],
     data() {
         return {
             isSomethingSelected: false,
             selectedItem: {},
-            currentNumber: 1,
             nextNumber: 2,
             prevNumber: 0,
             seasons: [1, 2, 3, 4, 5],
@@ -99,12 +95,13 @@ export default defineComponent({
     },
     methods: {
         async fetchData(url: string | number) {
+            let newCurrent = this.currentPage
             if (url === this.nextPage) {
-                this.currentNumber++
+                newCurrent++
                 this.nextNumber++
                 this.prevNumber++           
             } else if (url === this.prevPage) {
-                this.currentNumber--
+                newCurrent--
                 this.nextNumber--
                 this.prevNumber-- 
             }
@@ -114,16 +111,18 @@ export default defineComponent({
             let newPrev: string
             if (this.currentListName === 'episode') {
                 response = await axios.get(`https://rickandmortyapi.com/api/episode/?episode=S0${url.toString()}`)
-                this.currentNumber = url
+                newCurrent = url
+                console.log(newCurrent)
                 newList = response.data.results
-                this.$emit('update', newList)
+                newNext = ''
+                newPrev = ''
             } else {
-                response = await axios.get(url)
+                response = await axios.get(url.toString())
                 newList = response.data.results
                 newNext = response.data.info.next
                 newPrev = response.data.info.prev
-                this.$emit('update', newList, newNext, newPrev)
             }
+            this.$emit('update', newList, newNext, newPrev, newCurrent)
         },
     }
 })

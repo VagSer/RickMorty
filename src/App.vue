@@ -19,6 +19,7 @@
       :searchingName="searchingName"
       :currentListName="currentListName" 
       :currentList="currentList"
+      :currentPage="currentPage"
       :nextPage="nextPage"
       :prevPage="prevPage"
       @update="updateList"
@@ -35,9 +36,10 @@ export default defineComponent({
   components: {CurrentList},
   data() {
     return {
-      currentList: [],
+      currentList: [] as any[],
       searchingName: '',
       currentListName: '',
+      currentPage: 1,
       nextPage: '',
       prevPage: '',
     }
@@ -57,6 +59,7 @@ export default defineComponent({
           this.prevPage = response.data.info.prev
         }
         this.currentList = response.data.results
+        this.currentPage = 1
       },
       async searchList() {
         if (this.currentListName) {
@@ -66,11 +69,13 @@ export default defineComponent({
           this.currentList = response.data.results
         }
       },
-      updateList(newList: any[], newNext: string, newPrev: string) {
+      updateList(newList: any[], newNext: string, newPrev: string, newCurrent: number) {
         this.currentList = [...newList]
         this.nextPage = newNext
         this.prevPage = newPrev
         this.searchingName = ''
+        this.currentPage = newCurrent
+        console.log(this.currentPage)
       }
   },
 })
