@@ -3,7 +3,7 @@
     <p><strong>Эпизод: </strong>{{selectedItem.episode}}</p>
     <p><strong>Персонажи: </strong>
         <ul>
-            <li v-for="character in selectedItem.characters">
+            <li v-for="character in selectedItem.characters" v-bind:key="character">
                 <p @click="getMoreInfo(character)">{{character}}</p>
             </li>
         </ul>

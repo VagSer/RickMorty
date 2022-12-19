@@ -32,7 +32,7 @@
             {{season}}
         </Button>
     </div>
-    <div v-else v-if="currentList.length>0" class="Pagination">
+    <div v-else-if="currentList.length>0" class="Pagination">
         <Button
             v-if="prevNumber > 0"
             @click="fetchData(prevPage)"
