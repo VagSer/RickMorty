@@ -67,6 +67,7 @@ export default defineComponent({
         this.prevPage = newPrev
         this.currentPage = newCurrent
       },
+      // Шаблон функции для подгрузки дополнительных данных
       async fetchAdditionalData(args: any[]) {
         console.log(args)
       }
