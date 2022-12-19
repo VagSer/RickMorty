@@ -49,7 +49,7 @@ export default defineComponent({
         updateSelection(newSelect: object) {
             this.$emit('update:selectedItem', newSelect)
         }
-    }
+    },
 })
 </script>
 

@@ -33,22 +33,24 @@ export default defineComponent({
         return {}
     },
     methods: {
+        fetchAdditionalData(args: string[]) {
+            let newArgs = []
+            let id=0
+            args.map(async arg => {
+                const response = await axios.get(arg)
+                const name = response.data.name
+                newArgs.push({id, name, url: arg})
+                id++
+            })
+            return newArgs
+        },
         async getMoreInfo(){
+            this.$emit('update:isSomethingSelected', true)
             const response = await axios.get(`https://rickandmortyapi.com/api/character/${this.character.id}`)
-            const data = await response.data
+            let data = await response.data
             data.episode = this.fetchAdditionalData(data.episode)
             this.$emit('update:selectedItem', data)
-            this.$emit('update:isSomethingSelected', true)
         },
-        fetchAdditionalData(args: string[]) {
-        let newArgs = []
-        args.map(async arg => {
-          const response = await axios.get(arg)
-          const name = response.data.name
-          newArgs.push({name, url: arg})
-        })
-        return newArgs
-      }
     }
 })
 </script>

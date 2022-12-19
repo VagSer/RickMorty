@@ -36,7 +36,7 @@ export default defineComponent({
             const data = await response.data
             this.$emit('update:selectedItem', data)
             this.$emit('update:isSomethingSelected', true)
-        }
+        },
     }
 })
 </script>

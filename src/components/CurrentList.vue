@@ -24,7 +24,7 @@
     <div v-if="currentListName==='episode'" class="Pagination">
         <Button 
             v-for="season in seasons" 
-            v-key="season"
+            v-bind:key="season"
             :disabled="season === currentPage"
             style="z-index: 0"
             @click="fetchData(season)"
@@ -55,7 +55,7 @@
         <location-item
             v-if="currentListName==='location'" 
             v-for="location in currentList" 
-            v-key="location.id" 
+            v-bind:key="location.id" 
             :location="location"
             v-model:selectedItem = "selectedItem"
             v-model:isSomethingSelected = "isSomethingSelected"
@@ -63,7 +63,7 @@
         <episode-item 
             v-else-if="currentListName==='episode'"
             v-for="episode in currentList" 
-            v-key="episode.id" 
+            v-bind:key="episode.id" 
             :episode="episode"
             v-model:selectedItem = "selectedItem"
             v-model:isSomethingSelected = "isSomethingSelected"
@@ -71,7 +71,7 @@
         <character-item 
             v-else-if="currentListName==='character'"
             v-for="character in currentList" 
-            v-key="character.id" 
+            v-bind:key="character.id" 
             :character="character"
             v-model:selectedItem = "selectedItem"
             v-model:isSomethingSelected = "isSomethingSelected"
