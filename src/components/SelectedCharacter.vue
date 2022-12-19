@@ -14,7 +14,7 @@
         <p><strong>Эпизоды: </strong>
         <ul>
             <li v-for="episode in selectedItem.episode">
-                <p @click="getMoreInfo(episode)">{{episode}}</p>
+                <p @click="getMoreInfo(episode.url)">{{episode.name}}</p>
             </li>
         </ul>
         </p>

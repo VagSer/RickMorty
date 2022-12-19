@@ -59,7 +59,7 @@ export default defineComponent({
         }
         this.currentList = response.data.results
         this.currentPage = 1
-        this.fetchAdditionalData(response.data.results)
+        this.currentList.forEach(item => item.episode = this.fetchAdditionalData(item.episode))
       },
       updateList(newList: any[], newNext: string, newPrev: string, newCurrent: number) {
         this.currentList = [...newList]
@@ -67,8 +67,14 @@ export default defineComponent({
         this.prevPage = newPrev
         this.currentPage = newCurrent
       },
-      async fetchAdditionalData(args: any[]) {
-        console.log(args)
+      fetchAdditionalData(args: string[]) {
+        let newArgs = []
+        args.map(async arg => {
+          const response = await axios.get(arg)
+          const name = response.data.name
+          newArgs.push({name, url: arg})
+        })
+        return newArgs
       }
   },
 })
